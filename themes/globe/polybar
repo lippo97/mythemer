@@ -1,0 +1,333 @@
+;=====================================================
+;
+;   To learn more about how to configure Polybar
+;   go to https://github.com/jaagr/polybar
+;
+;   The README contains alot of information
+;
+;=====================================================
+
+[colors]
+;background = #222
+;background = #1f2427
+background = #242c2c
+background-alt = #485858
+foreground = #dfdfdf
+foreground-alt = #555
+;primary = #ffb52a
+primary = #06ded5
+secondary = #044c73
+alert = #bd2c40
+
+[bar/example]
+width = 100%
+height = 32
+
+background = ${colors.background}
+foreground = ${colors.foreground}
+
+line-size = 1
+line-color = #f00
+
+padding-left = 4
+padding-right = 4
+
+module-margin = 4
+
+;font-0 = "Roboto:pixelsize=10;1"
+font-6 = unifont:fontformat=truetype:size=18:antialias=false;0
+font-5 = siji:pixelsize=10;2
+font-7 = Segoe UI Symbol:size=15;0
+
+font-0 = NotoSans-Regular:size=10;0
+font-1 = MaterialIcons:size=15;3
+font-2 = Termsynu:size=8:antialias=false;-2
+font-3 = FontAwesome:size=15;2
+font-4 = Material Design Icons:size=8;0
+
+modules-left = i3
+modules-center = xwindow
+modules-right = volume backlight wireless-network wired-network battery date powermenu
+
+[module/i3]
+type = internal/i3
+format = <label-state> <label-mode>
+index-sort = true
+wrapping-scroll = false
+
+ws-icon-0 = 1;
+ws-icon-1 = 2;
+ws-icon-2 = 3;
+;ws-icon-3 = 4;4
+;ws-icon-4 = 5;5
+;ws-icon-5 = 6;6
+;ws-icon-6 = 7;7
+;ws-icon-7 = 8;8
+;ws-icon-8 = 9;9
+ws-icon-3 = 10;
+
+ws-icon-default = • 
+
+; Only show workspaces on the same output as the bar
+;pin-workspaces = true
+
+label-mode-padding = 2
+label-mode-foreground = #000
+label-mode-background = ${colors.primary}
+
+; focused = Active work pace on focused monitor
+;label-focused = %index%
+label-focused = %icon%
+label-focused-background = ${colors.background-alt}
+label-focused-underline = ${colors.primary}
+label-focused-padding = 4
+
+; unfocused = Inactive workspace on any monitor
+;label-unfocused = %index%
+label-unfocused = %icon%
+label-unfocused-padding = ${self.label-focused-padding}
+
+; visible = Active workspace on unfocused monitor
+;label-visible = %index%
+label-visible = %icon%
+label-visible-background = ${self.label-focused-background}
+label-visible-underline = ${self.label-focused-underline}
+label-visible-padding = ${self.label-focused-padding}
+
+; urgent = Workspace with urgency hint set
+;label-urgent = %index%
+label-urgent = %icon%
+;label-urgent-background = ${self.label-unfocused-background}
+label-urgent-underline = ${colors.alert}
+label-urgent-padding = ${self.label-focused-padding}
+
+[module/xwindow]
+type = internal/xwindow
+
+[module/mpd]
+type = internal/mpd
+format-online = <label-song>  <icon-prev> <icon-stop> <toggle> <icon-next>
+
+icon-prev = 
+icon-stop = 
+icon-play = 
+icon-pause = 
+icon-next = 
+
+label-song-maxlen = 25
+label-song-ellipsis = true
+
+
+[module/backlight]
+type = internal/xbacklight
+format = <ramp> <bar>
+;format = <bar>
+
+ramp-0 = 
+ramp-1 = 
+ramp-2 = 
+ramp-margin-right = 4
+
+bar-width = 10
+bar-indicator = |
+bar-indicator-font = 3
+bar-indicator-foreground = #ff
+bar-fill = ─
+bar-fill-font = 3
+bar-fill-foreground = ${colors.primary}
+;bar-fill-foreground = #c9665e
+bar-empty = ─
+bar-empty-font = 3
+bar-empty-foreground = #44
+
+[module/wireless-network]
+type = internal/network
+interface = wlo1
+interval = 3.0
+ping-interval = 10
+
+format-connected = <ramp-signal> <label-connected>
+label-connected = %essid%
+label-disconnected =    not connected
+label-disconnected-foreground = #66
+
+ramp-signal-0 = 
+ramp-signal-1 = 
+ramp-signal-2 = 
+ramp-signal-3 = 
+ramp-signal-4 = 
+ramp-signal-margin-right = 3
+
+animation-packetloss-0 = 
+animation-packetloss-0-foreground = #ffa64c
+animation-packetloss-1 = 
+animation-packetloss-1-foreground = ${bar/top.foreground}
+animation-packetloss-framerate = 500
+
+[module/wired-network]
+type = internal/network
+interface = eno1
+interval = 3.0
+
+label-connected =    %{T3}%local_ip%%{T-}
+label-disconnected-foreground = #66
+
+[module/volume]
+type = internal/volume
+format-volume = <ramp-volume> <bar-volume>
+
+master-soundcard = hw:0
+;speaker-soundcard = hw:0
+;headphone-soundcard = hw:0
+
+master-mixer = Master
+
+;speaker-mixer = Speaker
+;headphone-mixer = Headphone
+
+;headphone-id = 9
+;mapped = true
+
+ramp-volume-0 = 🔈
+ramp-volume-1 = 🔉
+ramp-volume-2 = 🔊
+ramp-volume-margin-right = 3
+
+ramp-headphones-0 = 
+ramp-headphones-1 = 
+
+bar-volume-width = 10
+bar-volume-indicator = |
+bar-volume-indicator-font = 3
+bar-volume-indicator-foreground = #ff
+bar-volume-fill = ─
+bar-volume-fill-font = 3
+;bar-volume-fill-foreground = #c9665e
+bar-volume-fill-foreground = ${colors.primary}
+bar-volume-empty = ─
+bar-volume-empty-font = 3
+bar-volume-empty-foreground = #44
+[module/cpu]
+type = internal/cpu
+interval = 0.5
+format = <label> <ramp-coreload>
+label = CPU
+
+ramp-coreload-0 = ▁
+ramp-coreload-0-font = 2
+ramp-coreload-0-foreground = #aaff77
+ramp-coreload-1 = ▂
+ramp-coreload-1-font = 2
+ramp-coreload-1-foreground = #aaff77
+ramp-coreload-2 = ▃
+ramp-coreload-2-font = 2
+ramp-coreload-2-foreground = #aaff77
+ramp-coreload-3 = ▄
+ramp-coreload-3-font = 2
+ramp-coreload-3-foreground = #aaff77
+ramp-coreload-4 = ▅
+ramp-coreload-4-font = 2
+ramp-coreload-4-foreground = #fba922
+ramp-coreload-5 = ▆
+ramp-coreload-5-font = 2
+ramp-coreload-5-foreground = #fba922
+ramp-coreload-6 = ▇
+ramp-coreload-6-font = 2
+ramp-coreload-6-foreground = #ff5555
+ramp-coreload-7 = █
+ramp-coreload-7-font = 2
+ramp-coreload-7-foreground = #ff5555
+
+
+[module/date]
+type = internal/date
+interval = 5
+
+date =
+date-alt = " %Y-%m-%d"
+
+time = %H:%M
+time-alt = %H:%M:%S
+
+format-prefix = 
+format-prefix-foreground = ${colors.foreground}
+format-prefix-margin-right = 2
+;format-underline = #0a6cf5
+
+label = %date% %time%
+
+[module/battery]
+type = internal/battery
+full-at = 98
+
+format-charging = <animation-charging> <label-charging>
+format-discharging = <ramp-capacity> <label-discharging>
+format-full = <ramp-capacity> <label-full>
+
+ramp-capacity-0 = 
+ramp-capacity-0-foreground = #f53c3c
+ramp-capacity-1 = 
+ramp-capacity-1-foreground = #ffa900
+ramp-capacity-2 = 
+ramp-capacity-3 = 
+ramp-capacity-4 = 
+ramp-capacity-margin-right = 3
+
+bar-capacity-width = 10
+bar-capacity-format = %{+u}%{+o}%fill%%empty%%{-u}%{-o}
+bar-capacity-fill = █
+bar-capacity-fill-foreground = #ddffffff
+bar-capacity-fill-font = 3
+bar-capacity-empty = █
+bar-capacity-empty-font = 3
+bar-capacity-empty-foreground = #44ffffff
+
+animation-charging-0 = 
+animation-charging-1 = 
+animation-charging-2 = 
+animation-charging-3 = 
+animation-charging-4 = 
+animation-charging-framerate = 750
+
+[module/powermenu]
+type = custom/menu
+
+format-padding = 5
+
+label-open = 
+label-close = 
+
+;menu-0-0 = Terminate WM
+;menu-0-0-foreground = ${colors.secondary}
+;menu-0-0-exec = bspc quit -1
+menu-0-0 = Reboot
+menu-0-0-foreground = #BC9944
+menu-0-0-exec = menu-open-1
+menu-0-0-margin-right = 4
+menu-0-0-margin-left= 2
+menu-0-1 = Power off
+menu-0-1-foreground = #ff0000
+menu-0-1-exec = menu-open-2
+
+menu-1-0 = Confirm
+menu-1-0-foreground = #BC9944
+menu-1-0-exec = shutdown -r now
+menu-1-0-margin-left= 2
+
+menu-2-0 = Confirm
+menu-2-0-foreground = #ff0000
+menu-2-0-exec = shutdown -h now
+menu-2-0-margin-left= 2
+
+[settings]
+screenchange-reload = true
+;compositing-background = xor
+;compositing-background = screen
+;compositing-foreground = source
+;compositing-border = over
+
+[global/wm]
+margin-top = 5
+margin-bottom = 5
+
+; vim:ft=dosini
